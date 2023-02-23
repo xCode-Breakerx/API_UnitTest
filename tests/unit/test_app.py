@@ -12,6 +12,7 @@ class TestEndpoints(unittest.IsolatedAsyncioTestCase):
     async def test_a(self) -> None:
         async with aiohttp.ClientSession() as client:
             async with client.get("http://127.0.0.1:5000/users") as r:
+                self.assertTrue(r.status == 200)
                 data: dict = await r.json()
                 self.assertFalse(data["error"])  # assert that there are no errors
                 self.assertIsInstance(data["users"], list)  # make sure the result is always a list
@@ -27,17 +28,20 @@ class TestEndpoints(unittest.IsolatedAsyncioTestCase):
     async def test_b(self, name: str = "deez", age: int = 69) -> None:
         async with aiohttp.ClientSession() as client:
             async with client.post(f"{self.base_url}/users/add", json={"name": name, "age": age}) as r:
+                self.assertTrue(r.status == 200)
                 self.assertFalse((await r.json())["error"])
 
     # tests fetching a user that we add
     async def test_c(self, name: str = "deez") -> int:
         async with aiohttp.ClientSession() as client:
             async with client.get(f"{self.base_url}/users/user", params={"name": name}) as r:  # query the given user, we assume it exists, run test_add_user to add a user
+                self.assertTrue(r.status == 200)
                 data: dict = await r.json()
                 self.assertTrue(data["found"])
                 self.assertIsInstance(data["user"], dict)
 
             async with client.get(f"{self.base_url}/users/user", params={"name": "non existant user"}) as r:  # try query a non existent user
+                self.assertTrue(r.status == 200)
                 data2: dict = await r.json()
                 self.assertFalse(data2["found"])
                 self.assertIsInstance(data2["user"], dict)
@@ -48,6 +52,7 @@ class TestEndpoints(unittest.IsolatedAsyncioTestCase):
     async def test_d(self, user_id: int = 1, name: str = "new fancy name", age: int = 6969) -> None:
         async with aiohttp.ClientSession() as client:
             async with client.put(f"{self.base_url}/users/update", json={"id": user_id, "name": name, "age": age}) as r:
+                self.assertTrue(r.status == 200)
                 data: dict = await r.json()
                 self.assertFalse(data["error"])
                 self.assertTrue(data["success"])
@@ -56,6 +61,7 @@ class TestEndpoints(unittest.IsolatedAsyncioTestCase):
     async def test_f(self, name: str = "new fancy name") -> None:
         async with aiohttp.ClientSession() as client:
             async with client.delete(f"{self.base_url}/users/delete/{name}") as r:
+                self.assertTrue(r.status == 200)
                 self.assertFalse((await r.json())["error"])
 
     # test all cases at once
