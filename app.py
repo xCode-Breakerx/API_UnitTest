@@ -24,7 +24,7 @@ def add_user() -> dict:
         return {"error": True, "msg": str(e)}
 
 
-@app.route('/users/delete/<id>', methods=["DELETE"])
+@app.route('/users/delete/<name>', methods=["DELETE"])
 def delete_user(name: int) -> dict:
     try:
         base.delete(name)
