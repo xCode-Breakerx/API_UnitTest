@@ -24,16 +24,16 @@ def add_user():
         return {"error": True, "msg": str(e)}
 
 
-@app.route('/users/delete', methods=["POST"])
-def delete_user():
+@app.route('/users/delete/<id>', methods=["DELETE"])
+def delete_user(id):
     try:
-        base.delete(request.json.get("name"))
+        base.delete(id)
         return {"error": False}
     except Exception as e:
         return {"error": True, "msg": str(e)}
 
 
-@app.route('/users/update', methods=["POST"])
+@app.route('/users/update', methods=["PUT"])
 def update_user():
     try:
         return {"error": False, "success": base.update(request.json.get("id"), request.json.get("name"), request.json.get("age"))}
