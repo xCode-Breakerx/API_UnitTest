@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 @app.route('/users', methods=["GET"])
-def users():
+def users() -> dict:
     try:
         return {"error": False, "users": base.fetchall()}
     except Exception as e:
@@ -16,7 +16,7 @@ def users():
 
 
 @app.route('/users/add', methods=["POST"])
-def add_user():
+def add_user() -> dict:
     try:
         base.insert(request.json.get("name"), request.json.get("age"))
         return {"error": False}
@@ -25,16 +25,16 @@ def add_user():
 
 
 @app.route('/users/delete/<id>', methods=["DELETE"])
-def delete_user(id):
+def delete_user(name: int) -> dict:
     try:
-        base.delete(id)
+        base.delete(name)
         return {"error": False}
     except Exception as e:
         return {"error": True, "msg": str(e)}
 
 
 @app.route('/users/update', methods=["PUT"])
-def update_user():
+def update_user() -> dict:
     try:
         return {"error": False, "success": base.update(request.json.get("id"), request.json.get("name"), request.json.get("age"))}
     except Exception as e:
@@ -42,9 +42,9 @@ def update_user():
 
 
 @app.route('/users/user', methods=["GET"])
-def fetch_user():
+def fetch_user() -> dict:
     try:
-        fetch = base.fetch(request.args.get("name"))
+        fetch: dict = base.fetch(request.args.get("name"))
         return {"error": False, "found": len(fetch) > 0, "user": fetch}
     except Exception as e:
         return {"error": True, "found": False, "user": {}, "msg": str(e)}
