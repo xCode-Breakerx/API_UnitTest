@@ -29,7 +29,7 @@ Method
             - **name** : the new name of user
             - **age** : the new age of the user
 - DELETE
-    - **/users/delete/<name>** : deletes a given user by its name
+    - **/users/delete/&lt;name&gt;** : deletes a given user by its name
         - params:
             - **name** : the name of user
 
