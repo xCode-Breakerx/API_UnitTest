@@ -4,6 +4,12 @@ This is a simple API with unit tests. The API connects to a
 **local in-memory database** when it is started.
 The API has 6 main endpoints.
 
+Tested with python 3.10.5
+<pre>
+>>> sys.version
+'3.10.5 (tags/v3.10.5:f377153, Jun  6 2022, 16:14:13) [MSC v.1929 64 bit (AMD64)]'
+</pre>
+
 Method
 
 - GET
