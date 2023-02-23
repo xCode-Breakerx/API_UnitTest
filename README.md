@@ -2,7 +2,7 @@
 
 This is a simple API with unit tests. The API connects to a
 **local sqlite3 in-memory database** when it is started.
-The API has 6 main endpoints.
+The API has 5 main endpoints.
 
 Tested with python 3.10.5
 <pre>
